@@ -14,8 +14,9 @@ NAME	= pipex
 # CFLAGS	= -Wextra -Wall -Werror -g
 CFLAGS	= -g
 LIBFT	= ./libft
+PTF		= ./ft_printf
 
-HEADERS	= -I ./include -I $(LIBFT)
+HEADERS	= -I $(LIBFT) -I $(PTF)
 
 SRCS	=	pipex.c \
 			ft_error.c
@@ -25,7 +26,7 @@ OBJS	= ${SRCS:.c=.o}
 all: $(NAME) 
 
 $(NAME): $(OBJS)
-	make bonus -C $(LIBFT)
+	make -C $(LIBFT)
 	@$(CC) $(CFLAGS) $(OBJS) $(HEADERS) -o $(NAME) -L. $(LIBFT)/libft.a
 
 %.o: %.c $(HEADER_FILE)

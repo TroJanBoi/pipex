@@ -13,18 +13,24 @@
 #ifndef PIPEX_H
 # define PIPEX_H
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include "libft.h"
-
-void	ft_error(char *str, int fd);
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <fcntl.h>
+# include <unistd.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include "libft.h"
 
 typedef struct s_pipex
 {
 	int		fd1;
 	int		fd2;
-}		t_pipex;
+	char	*fname;
+}	t_pipex;
+
+void	ft_error(char *str, int fd);
+
 
 
 #endif

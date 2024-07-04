@@ -12,11 +12,31 @@
 
 #include "pipex.h"
 
+void	ft_checkfd(int	fd)
+{
+	if (fd < 0)
+		printf("bash: %s: No such file Dicrectory\n", s);
+}
+
+int		ft_openfile(t_pipex *data)
+{
+	data->fd1 = open(data->fname, O_RDONLY);
+	ft_checkfd(data->fd1);
+}
+
+void	ft_init(t_pipex	*data, char **av)
+{
+	data->fname = ft_strdup(av[1]);
+	data->fd1 = ft_openfile(data);
+}
+
 int	main(int ac, char **av)
 {
+	t_pipex		data;
+
 	if (ac != 5)
 		ft_error("Error", 2);
-	
+	ft_init(&data, av);
 }
 
 	// if (ac != 2)
