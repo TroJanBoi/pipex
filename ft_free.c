@@ -1,37 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pesrisaw <pesrisaw@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/02 00:50:53 by pesrisaw          #+#    #+#             */
-/*   Updated: 2024/07/05 21:35:38 by pesrisaw         ###   ########.fr       */
+/*   Created: 2024/07/06 00:21:39 by pesrisaw          #+#    #+#             */
+/*   Updated: 2024/07/06 00:22:37 by pesrisaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "pipex.h"
 
-# include <stdio.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <fcntl.h>
-# include <unistd.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include "libft.h"
-
-typedef struct s_pipex
+void	ft_free(char **av)
 {
-	int		fdin;
-	int		fdout;
-	int		fd[2];
-	char	*fname;
-}	t_pipex;
+	int	i;
 
-void	ft_error(char *str, int fd);
-
-
-
-#endif
+	i = 0;
+	while (av[i])
+	{
+		free(av[i]);
+		i++;
+	}
+	free(av);
+}
