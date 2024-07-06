@@ -6,7 +6,7 @@
 /*   By: pesrisaw <pesrisaw@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 00:33:28 by pesrisaw          #+#    #+#             */
-/*   Updated: 2024/07/06 00:59:15 by pesrisaw         ###   ########.fr       */
+/*   Updated: 2024/07/06 07:41:45 by pesrisaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_fine_path(char **env, char *av)
 void	exe_cute(char **env,  char *av)
 {
 	// dprintf(2, "open exe_cute\n");
-	// char *argv[] = { av, NULL, NULL };
+	char *argv[] = { av, NULL, NULL };
 	char	**cmd;
 
 	cmd = ft_split(av, ' ');
@@ -43,7 +43,7 @@ void	exe_cute(char **env,  char *av)
 	// 	i++;
 	// }
 	// dprintf(2, "av : %s\n", av);
-	// execve(av, argv, env);
+	execve(cmd[0], cmd, env);
 }
 
 void	ft_children(char **env, t_pipex *data, char **av)
@@ -88,9 +88,10 @@ int	main(int ac, char **av, char *envp[])
 	// printf("pid : %d\n", pid);
 	if (pid == 0)
 		ft_children(envp, &data, av);
-	// printf("success children\n");
+	
 	waitpid(pid, NULL, 0);
-	ft_parents(envp, &data, av);
+	printf("success children\n");
+	// ft_parents(envp, &data, av);
 }
 
 // if (ac != 2)
