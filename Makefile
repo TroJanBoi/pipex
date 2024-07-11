@@ -6,13 +6,13 @@
 #    By: pesrisaw <pesrisaw@student.42bangkok.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/10 19:05:16 by pesrisaw          #+#    #+#              #
-#    Updated: 2024/07/11 00:00:26 by pesrisaw         ###   ########.fr        #
+#    Updated: 2024/07/11 17:00:54 by pesrisaw         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= pipex
-# CFLAGS	= -Wextra -Wall -Werror -g
-CFLAGS	= -g
+CFLAGS	= -Wextra -Wall -Werror -g
+# CFLAGS	= -g
 LIBFT	= ./libft
 PTF		= ./ft_printf
 
@@ -20,7 +20,9 @@ HEADERS	= -I $(LIBFT) -I $(PTF)
 
 SRCS	=	pipex.c \
 			ft_error.c \
-			ft_free.c
+			ft_free.c \
+			exe_cute.c \
+			truad_but.c
 
 OBJS	= ${SRCS:.c=.o}
 

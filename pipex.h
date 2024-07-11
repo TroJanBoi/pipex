@@ -6,7 +6,7 @@
 /*   By: pesrisaw <pesrisaw@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 00:50:53 by pesrisaw          #+#    #+#             */
-/*   Updated: 2024/07/09 10:37:17 by pesrisaw         ###   ########.fr       */
+/*   Updated: 2024/07/11 17:06:16 by pesrisaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ typedef struct s_pipex
 
 void	ft_error(char *str, int fd);
 void	ft_free(char **av);
-
-
+void	ft_close_pipe(t_pipex *data);
+void	exe_cute(char **env, char *av, t_pipex *data);
+char	*ft_fine_part(char **env, char *cmd);
+int		check_file(char *filename);
+int		check_part(char *cmd);
+char	*ft_joinpart(char **comd, char *cmd);
+int		ft_count_backsl(char *str);
 #endif
