@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pesrisaw <pesrisaw@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: pesrisaw <pesrisaw@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 23:01:06 by pesrisaw          #+#    #+#             */
-/*   Updated: 2024/07/02 23:04:52 by pesrisaw         ###   ########.fr       */
+/*   Updated: 2024/07/09 10:37:04 by pesrisaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

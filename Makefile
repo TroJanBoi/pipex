@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pesrisaw <pesrisaw@student.42bangkok.co    +#+  +:+       +#+         #
+#    By: pesrisaw <pesrisaw@student.42bangkok.com>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/10 19:05:16 by pesrisaw          #+#    #+#              #
-#    Updated: 2024/07/02 23:06:05 by pesrisaw         ###   ########.fr        #
+#    Updated: 2024/07/11 00:00:26 by pesrisaw         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ PTF		= ./ft_printf
 HEADERS	= -I $(LIBFT) -I $(PTF)
 
 SRCS	=	pipex.c \
-			ft_error.c
+			ft_error.c \
+			ft_free.c
 
 OBJS	= ${SRCS:.c=.o}
 

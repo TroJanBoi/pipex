@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pesrisaw <pesrisaw@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: pesrisaw <pesrisaw@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 00:50:53 by pesrisaw          #+#    #+#             */
-/*   Updated: 2024/07/05 21:35:38 by pesrisaw         ###   ########.fr       */
+/*   Updated: 2024/07/09 10:37:17 by pesrisaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,13 @@ typedef struct s_pipex
 	int		fdout;
 	int		fd[2];
 	char	*fname;
+	int		status;
+	pid_t	pid_ch;
+	pid_t	pid_pr;
 }	t_pipex;
 
 void	ft_error(char *str, int fd);
-
+void	ft_free(char **av);
 
 
 #endif

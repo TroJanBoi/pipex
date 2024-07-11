@@ -3,95 +3,144 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pesrisaw <pesrisaw@student.42bangkok.co    +#+  +:+       +#+        */
+/*   By: pesrisaw <pesrisaw@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 00:33:28 by pesrisaw          #+#    #+#             */
-/*   Updated: 2024/07/06 07:41:45 by pesrisaw         ###   ########.fr       */
+/*   Updated: 2024/07/11 00:24:38 by pesrisaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	check_file(char *filename)
+int	check_file(t_pipex *data, char *filename)
 {
-	if (access(filename, R_OK) == 0)
-		return ;
-	else if (access(filename, R_OK | W_OK) == 0)
-		return ;
+	data->fdin = open(filename, O_RDONLY);
+	if (data->fdin < 0)
+		return (0);
 	else
-		perror(filename);
+	{
+		if (access(filename, R_OK) == 0)
+			return (1);
+		else if (access(filename, R_OK | W_OK) == 0)
+			return (1);
+		else
+			return (0);
+	}
+	return (1);
 }
 
-void	ft_fine_path(char **env, char *av)
+int	check_part(char *cmd)
 {
-	
+	if (access(cmd, X_OK) == 0)
+		return (1);
+	return (0);
 }
 
-void	exe_cute(char **env,  char *av)
+char	*ft_joinpart(char **comd, char *cmd)
 {
-	// dprintf(2, "open exe_cute\n");
-	char *argv[] = { av, NULL, NULL };
+	int		i;
+	char	*tmp;
+	char	*ucmd;
+
+	i = 0;
+	ucmd = ft_substr("", 0, 0);
+	while (comd[i])
+	{
+		tmp = ucmd;
+		ucmd = ft_strjoin(comd[i], "/");
+		free(tmp);
+		tmp = ucmd;
+		ucmd = ft_strjoin(ucmd, cmd);
+		free(tmp);
+		if (check_part(ucmd) == 1)
+			return (ucmd);
+		i++;
+	}
+	return (NULL);
+}
+
+char	*ft_fine_part(char **env, char *cmd)
+{
+	int		i;
+	char	**comd;
+	char	*ucmd;
+	char	*tmp;
+
+	i = 0;
+	while (ft_strnstr(env[i], "PATH=", 5) == 0)
+		i++;
+	comd = ft_split(env[i], ':');
+	tmp = ft_joinpart(comd, cmd);
+	if (tmp != NULL)
+	{
+		ft_free(comd);
+		return (tmp);
+	}
+	ft_free(comd);
+	return (NULL);
+}
+
+void	exe_cute(char **env,  char *av, t_pipex *data)
+{
 	char	**cmd;
+	char	*part;
 
 	cmd = ft_split(av, ' ');
-	ft_fine_path(env, cmd[0]);
-	dprintf(2, "cmd : %s\n", cmd[0]);
-	// while (env[i] != NULL)
-	// {
-	// 	dprintf(2, "[%d]-env - %s\n", i, env[i]);
-	// 	if ()
-	// 	i++;
-	// }
-	// dprintf(2, "av : %s\n", av);
-	execve(cmd[0], cmd, env);
+	part = ft_fine_part(env, cmd[0]);
+	if (execve(part, cmd, env) == -1)
+		perror(part);
+	ft_free(cmd);
 }
 
 void	ft_children(char **env, t_pipex *data, char **av)
 {
 	data->fdin = open(av[1], O_RDONLY);
-	check_file(av[1]);
 	if (data->fdin < 0)
 		exit(EXIT_FAILURE);
 	dup2(data->fdin, 0);
 	dup2(data->fd[1], 1);
 	close(data->fd[0]);
-	exe_cute(env, av[2]);
+	exe_cute(env, av[2], data);
 }
 
 void	ft_parents(char **env, t_pipex *data, char **av)
 {
-	// if (data->fdin == 2)
-	// 	exit(EXIT_FAILURE);
-	dprintf(2, "open->\n");
 	data->fdout = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	check_file(av[4]);
+	check_file(data, av[4]);
 	dup2(data->fd[0], 0);
 	dup2(data->fdout, 1);
 	close(data->fd[1]);
-	exe_cute(env, av[3]);
+	exe_cute(env, av[3], data);
 }
 
 int	main(int ac, char **av, char *envp[])
 {
 	t_pipex	data;
-	pid_t	pid;
 
 	if (ac != 5)
 		ft_error("Error 505", 2);
+	if (!check_file(&data, av[1]))
+	{
+		close(data.fdin);
+		perror(av[1]);
+		exit(EXIT_FAILURE);
+	}
 	if (pipe(data.fd) == -1)
 		ft_error("Error pip", 2);
-	// printf("fd->0 : %d\n", data.fd[0]);
-	// printf("fd->1 : %d\n", data.fd[1]);
-	pid = fork();
-	if (pid == -1)
-		ft_error("Error pid", 2);
-	// printf("pid : %d\n", pid);
-	if (pid == 0)
+	data.pid_ch = fork();
+	if (data.pid_ch == -1)
+		dprintf(2, "Error data.pid_ch\n");
+	if (data.pid_ch == 0)
 		ft_children(envp, &data, av);
-	
-	waitpid(pid, NULL, 0);
-	printf("success children\n");
-	// ft_parents(envp, &data, av);
+	data.pid_pr = fork();
+	if (data.pid_pr == -1)
+		dprintf(2, "Error data.pid_pr\n");
+	if (data.pid_pr == 0)
+		ft_parents(envp, &data, av);
+	close(data.fd[0]);
+	close(data.fd[1]);
+	waitpid(data.pid_ch, NULL, 0);
+	printf("finish\n");
 }
 
 // if (ac != 2)
