@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pesrisaw <pesrisaw@student.42bangkok.com>  +#+  +:+       +#+        */
+/*   By: pesrisaw <pesrisaw@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 00:33:28 by pesrisaw          #+#    #+#             */
-/*   Updated: 2024/07/11 16:56:05 by pesrisaw         ###   ########.fr       */
+/*   Updated: 2024/07/15 13:32:05 by pesrisaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 void	ft_children(char **env, t_pipex *data, char **av)
 {
+	if (!check_file(av[1]))
+	{
+		perror(av[1]);
+		exit(EXIT_FAILURE);
+	}
 	data->fdin = open(av[1], O_RDONLY);
 	if (data->fdin < 0)
 	{
@@ -46,13 +51,8 @@ int	main(int ac, char **av, char *envp[])
 
 	if (ac != 5)
 		ft_error("Error 505", 2);
-	if (!check_file(av[1]))
-	{
-		perror(av[1]);
-		exit(EXIT_FAILURE);
-	}
 	if (pipe(data.fd) == -1)
-		ft_error("Error pip", 2);
+		ft_error("Error pipe", 2);
 	data.pid_ch = fork();
 	if (data.pid_ch == 0)
 		ft_children(envp, &data, av);

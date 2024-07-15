@@ -14,7 +14,7 @@
 
 int	check_file(char *filename)
 {
-	if ((access(filename, R_OK) || access(filename, R_OK | W_OK)) == 0)
+	if ((access(filename, R_OK) == 0) || (access(filename, R_OK | W_OK)) == 0)
 		return (1);
 	else
 		return (0);
